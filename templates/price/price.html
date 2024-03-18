@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}
+    <header>
+        <h1>Cena</h1>
+    </header>
+{% endblock %}
+
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="flash" ><span class="material-icons-outlined">info</span>{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <body>
+
+        <div class="login-box">
+            <h2>Historie cen</h2>
+            <form action="{{ url_for('price.price') }}" method="post">
+
+                <div class="user-box">
+                    <label for="produkt">Produkt:</label><br>
+                    <select name="produkt" id="produkt" required>
+                        {% for i in range(  product|length) %}
+                            <option value={{ i }}>{{ product[i][0]}} </option>
+                        {% endfor %}
+                    </select><br><br>
+                </div>
+
+                <div class="user-box">
+                    <label for="cena">Cena:</label><br>
+                    <input type="number" id="cena" name="cena" required><br><br>
+                </div>
+
+                <div class="user-box">
+                    <label for="datumod">Datum od:</label><br>
+                    <input type="date" id="datumod" name="datumod" required><br><br>
+                </div>
+
+                <div class="user-box">
+                    <label for="datumdo">Datum do:</label><br>
+                    <input type="date" id="datumdo" name="datumdo" required><br><br>
+                </div>
+
+                <div class="user-box">
+                    <label for="komentar">Komentář:</label><br>
+                    <input type="text" id="komentar" name="komentar" maxlength=30 required><br><br>
+                </div>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+{#Pokud má user oprávnění#}
+        {% if show_it %}
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID ceny</th>
+                    <th>Produkt</th>
+                    <th>Cena</th>
+                    <th>Datum od</th>
+                    <th>Datum do</th>
+                    <th>Komentář</th>
+                    <th>Smazat</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                    {% set i = namespace(value=0) %}
+                    {% for cols in range(neco | length ) %}
+                        <tr>
+                            {% for rows in range(6) %}
+                                {% if i == 0 %}
+                                    {% set i = namespace(value=neco[cols][rows]) %}
+                                {% endif %}
+
+                                <td>{{ neco[cols][rows] }}</td>
+                            {% endfor %}
+
+                            <td>
+                                <form id="delete_price" action="{{ url_for('price.price') }}" method="post">
+                                    <input type="hidden" id="delete" name="delete" value={{ i.value }}>
+                                    <input type="Submit" value="Delete">
+                                </form>
+                            </td>
+
+                            {% set i.value = i.value + 1 %}
+
+                        </tr>
+                        {% set i = namespace(value=0) %}
+
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+{#Pokud oprávnění nemá#}
+        {% else %}
+            <table border="1px">
+                <thead>
+                    <tr>
+                        <th>ID ceny</th>
+                        <th>Produkt</th>
+                        <th>Cena</th>
+                        <th>Datum od</th>
+                        <th>Datum do</th>
+                        <th>Komentář</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for cols in range(neco | length ) %}
+                        <tr>
+                            {% for rows in range(6) %}
+                                <td>{{ neco[cols][rows] }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        {% endif %}
+
+    </body>
+
+{% endblock %}

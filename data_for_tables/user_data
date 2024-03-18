@@ -1,0 +1,13 @@
+
+INSERT INTO uživatel(id_uživatele,jméno,příjmení,username,password,id_role) VALUES (1,'admin','webu','admin','heslo',1);
+INSERT INTO uživatel(id_uživatele,jméno,příjmení,username,password,id_role) VALUES (2,'Jirka','Nový','jirkan','password',2);
+INSERT INTO uživatel(id_uživatele,jméno,příjmení,username,password,id_role) VALUES (3,'Bob','Cooper','bobc','password',2);
+INSERT INTO uživatel(id_uživatele,jméno,příjmení,username,password,id_role) VALUES (4,'John','Watson','johnw','password',2);
+INSERT INTO uživatel(id_uživatele,jméno,příjmení,username,password,id_role) VALUES (5,'Jim','Jones','jimjo','password',2);
+
+id_uživatele,jméno,příjmení,username,password,id_role
+1,admin,webu,admin, heslo,1
+2,Jirka, Nový, jirkan, password, 2
+3,Bob, Cooper, bobc, password, 2
+4,John, Watson, johnw, password, 2
+5,Jim, Jones, jimjo, password, 2

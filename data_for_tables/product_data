@@ -1,0 +1,15 @@
+id_produktu,název,výrobce,id_ceny
+1,bílé víno,billa,10
+2červené víno,lidl,20
+3,rosé,billa,30
+4,šumivé víno,albert,40
+5,líkérové víno,tesco,50
+
+
+
+
+INSERT INTO produkt(id_produktu,název,výrobce,id_ceny) VALUES (1,'bílé víno','billa',10);
+INSERT INTO produkt(id_produktu,název,výrobce,id_ceny) VALUES (2,'červené víno','lidl',20);
+INSERT INTO produkt(id_produktu,název,výrobce,id_ceny) VALUES (3,'rosé','billa',30);
+INSERT INTO produkt(id_produktu,název,výrobce,id_ceny) VALUES (4,'šumivé víno','albert',40);
+INSERT INTO produkt(id_produktu,název,výrobce,id_ceny) VALUES (5,'líkérové víno','tesco',50);

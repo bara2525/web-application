@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title %}
+    <header>
+        <h1>Kategorie</h1>
+    </header>
+{% endblock %}
+{% block content %}
+
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+               <div class="flash" ><span class="material-icons-outlined">info</span>{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    {% if show_it %}
+        <div class="login-box">
+            <h2>Kategorie</h2>
+
+            <form id="add_form" action="{{ url_for('categories.category') }}" method="post">
+                <div class="user-box">
+                    <label for="name">Název kategorie:</label><br>
+                    <input type="text" id="name" name="name" required><br>
+                </div>
+
+                <div class="user-box">
+                    <label for="popis">Popis:</label><br>
+                    <input type="text" id="popis" name="popis" maxlength=30  required><br><br>
+                </div>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+    {% else %}
+        <div class="flash" ><span class="material-icons-outlined">info</span><div class="flash_text">Kategorie může přidávat pouze účet administrátora.</div></div>
+
+    {% endif %}
+
+
+    {% if show_it %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID kategorie</th>
+                <th>Název</th>
+                <th>Popis</th>
+                <th>Id uživatele</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% set i = namespace(value=0) %}
+
+            {% for cols in range(database | length ) %}
+                <tr>
+                {% for rows in range(4) %}
+
+                    {% if i == 0 %}
+                        {% set i = namespace(value=database[cols][rows]) %}
+
+                    {% elif rows == 1 %}
+                        <td>{{ database[cols][rows] }}
+                            <form id="one_form" action="{{ url_for('categories.category') }}" method="post">
+                                <input type="hidden" id="one_form" name="one_form" value={{ cols }}>
+                                <input type="submit" id="new" value="Podívat se">
+                            </form>
+                        </td>
+
+                    {% else %}
+                        <td>{{ database[cols][rows] }}</td>
+
+                    {% endif %}
+
+                {% endfor %}
+
+                <td>
+                    <form id="delete_form" action="{{ url_for('categories.category') }}" method="post">
+                        <input type="hidden" id="delete" name="delete" value={{ i.value }}>
+                        <input type="Submit" value="Delete">
+                    </form>
+                </td>
+
+                {% set i.value = i.value + 1 %}
+
+                </tr>
+
+                {% set i = namespace(value=0) %}
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+
+    {% else %}
+    <table border="1px">
+        <thead>
+        <tr>
+            <th>ID kategorie</th>
+            <th>Název</th>
+            <th>Popis</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for cols in range(database | length ) %}
+                <tr>
+                    {% for rows in range(3) %}
+                        {% if rows == 1 %}
+                          <td>{{ database[cols][rows] }}
+                            <form id="one_form" action="{{ url_for('categories.category') }}" method="post">
+                                <input type="hidden" id="one_form" name="one_form" value={{ cols }}>
+                                <input type="submit" id="new" value="Podívat se">
+                            </form>
+                          </td>
+
+                        {% else %}
+                            <td>
+                                {{ database[cols][rows] }}
+                            </td>
+                        {% endif %}
+                    {% endfor %}
+                 </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endif %}
+
+
+</body>
+
+{% endblock %}
+
+{% block footer %} {% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}
+    <header>
+        <h1>Users</h1>
+    </header>
+{% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="flash" ><span class="material-icons-outlined">info</span>{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <body>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID uživatele</th>
+                    <th>Jméno</th>
+                    <th>Příjmení</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Role</th>
+                    <th>Změnit?</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% set i = namespace(value=0) %}
+                {% for cols in range(neco | length ) %}
+                    <tr>
+                        {% for rows in range(6) %}
+                            {% if rows == 4  %}
+                                <td>{{  (neco[cols][rows] | length) * "*" }}</td>
+
+                            {% elif rows ==5 %}
+                                {% if  neco[cols][rows] == 1  %}
+                                    <td>Administrátor</td>
+                                {% else %}
+                                    <td>User</td>
+                                    {% endif %}
+
+                            {% else %}
+                                <td >{{ neco[cols][rows] }}</td>
+
+                            {% endif %}
+
+                        {% endfor %}
+                        <td>
+                            <form action="{{ url_for('users.users') }}" method="post">
+                                <input type="hidden" id="admin" name="admin" value={{ i.value }}>
+                                <input type="submit" value="Změnit roli">
+                            </form>
+                        </td>
+                        {% set i.value = i.value + 1 %}
+                        <td>
+                            <form id="delete_user" action="{{ url_for('users.users') }}" method="post">
+                                <input type="hidden" id="delete" name="delete" value={{ i.value }}>
+                                <input type="Submit" value="Delete">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+{% endblock %}
+
+{% block footer %} {% endblock %}

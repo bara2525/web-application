@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/static/script.js"></script>
+
+    <title>E-shop</title>
+
+    <link rel="stylesheet" href="/static/styles.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div id="picture">
+            <img class="primary-icon" src="/static/images/logo.PNG" alt="picture"/>
+        </div>
+
+        <div id="menu">
+            <ul class="nav-list">
+                <li class="list-item">
+                    <a href="/">Úvod</a>
+                </li>
+                <li class="list-item">
+                    <a href="/category">Kategorie</a>
+                </li>
+                <li class="list-item">
+                    <a href="/price">Cena</a>
+                </li>
+                <li class="list-item">
+                    <a href="/product">Produkty</a>
+                </li>
+                <li class="list-item">
+                    <a href="/registration">Registrace</a>
+                </li>
+                <li class="list-item">
+                    <a href="/login">
+                        {% if key != 'anonymous' %}
+                            {{ key }}
+                        {% else %}
+                            Přihlášení
+                        {% endif %}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <header>
+        <h1>WINEX - Ve víně je pravda</h1>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="flash" ><span class="material-icons-outlined">info</span>{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        <div class='container'>
+            <div class="left">
+                <h3>O společnosti</h3>
+                <p>Winex je největší společnost, která se zabývá online nabídkou vín v ČR, denně naše stránky navštíví přes 10000 zákazníků.
+                                Již od roku 2005 tvoříme budoucnost. Naše porovnávání vždy předbíhalo dobu. Winex neustále inovuje a rozšiřuje povědomí
+                                o dostupnosti a cenách tohoto typu alkoholu. Zásadně přispívá informovanosti Česka rozšiřováním svého vlivu na poli prodeje produktů s cílem naplnit svou dlouhodobou vizi
+                                Pijeme spolu. Spolupracuje s předními českými univerzitami v čele s Mendelovou univerzitou a jmenovitě se Zahradnickou fakultou.</p>
+            </div>
+
+            <div class="right">
+                <img class='wine5' src="/static/images/wine5.jpg" alt="vino"/>
+            </div>
+
+        </div>
+    </main>
+
+
+    <footer id="contact">
+        <div id="adresa">
+            <div> <span class="material-icons-outlined">location_on</span> Adresa 1</div>
+            <br>
+            <div><span class="material-icons-outlined">call</span> 777 888 999</div>
+            <br>
+            <div><span class="material-icons-outlined">mail</span> winex@winex.com</div>
+        </div>
+
+        <div id="foot">
+            <div class='row'>
+                <div class='column'>
+                    <div class='blue-column'>
+                                    <a href="/logout"><span class="material-icons-outlined">logout</span>Odhlásit se</a>
+                                    <a href="/"><span class="material-icons-outlined">home</span> Úvod</a>
+                                    <a href="/category"><span class="material-icons-outlined">category</span> Kategorie</a>
+                                    <a href="/price"><span class="material-icons-outlined">local_offer</span> Cena</a>
+                    </div>
+                </div>
+
+                <div class='column'>
+                    <div class='green-column'>
+                                    <a href="/product"><span class="material-icons-outlined">liquor</span> Produkty</a>
+                                    <a href="/registration"><span class="material-icons-outlined">how_to_reg</span> Registrace</a>
+                                    <a href="/login"><span class="material-icons-outlined">login</span> Login</a>
+                                    {% if showit %}
+                                    <a href="/users"><span class="material-icons">groups</span> Uživatelé</a>
+                                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

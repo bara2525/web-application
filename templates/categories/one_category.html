@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}
+    <header>
+        <h1>one category</h1>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <h4 style="color: white">{{ name }}</h4>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Název</th>
+                <th>Výrobce</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+        {% if data == [] %}
+            <tr> <td>Ke kategorii zatím není nic přiřazeno.</td>
+                <td><a href="/product"><span class="material-icons-outlined">search</span></a></td>
+            </tr>
+
+        {% else %}
+            {% for cols in range(data | length ) %}
+                <tr>
+                    {% for rows in range(2) %}
+                        <td>{{ data[cols][rows] }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block footer %} {% endblock %}

@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block title %}
+    <header>
+        <h1>Produkt</h1>
+    </header>
+{% endblock %}
+
+
+{% block content %}
+
+<body>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="flash" ><span class="material-icons-outlined">info</span>{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+{#Pokud má uživatel oprávnění-přidání produktů#}
+
+    {% if show_it %}
+        <div class="login-box">
+            <h2>Produkty</h2>
+
+            <form action="{{ url_for('product.product') }}" method="post">
+                <div class="user-box">
+                    <label for="name">Název produktu:</label><br>
+                    <input type="text" id="name" name="name" required><br>
+                </div>
+
+                <div class="user-box">
+                    <label for="vyrobce">Výrobce:</label><br>
+                    <input type="text" id="vyrobce" name="vyrobce" required><br><br>
+                </div>
+
+                <div class="user-box">
+                    <label for="kategorie">Kategorie:</label><br>
+                        <select name="kategorie" id="kategorie" required>
+                            {% for i in range(  kategorie|length) %}
+                                {% if i !=0 %}
+                                    <option value={{ i }}>{{ kategorie[i][0]}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    <br><br>
+                </div>
+
+                <input type="submit" value="Submit">
+
+            </form>
+        </div>
+
+    {% else %}
+        <div class="flash" ><span class="material-icons-outlined">info</span>Produkty může přidávat pouze účet administrátora.</div>
+
+    {% endif %}
+
+    {#Pokud má uživatel oprávnění - uvidí delete#}
+    {% if show_it %}
+        <table>
+            <thead>
+            <tr>
+                <th>ID produku</th>
+                <th>Název</th>
+                <th>Výrobce</th>
+                <th>Kategorie</th>
+                <th>Cena</th>
+                <th>Vývoj cen</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+
+            <tbody>
+                {% set i = namespace(value=0) %}
+                {% for cols in range(database | length ) %}
+                    <tr>
+                        {% for rows in range(5) %}
+                            {% if i == 0 %}
+                                {% set i = namespace(value=neco[cols][rows]) %}
+
+                            {% elif database[cols][rows] == None %}
+                                <td>{{ "zatím neznámá"}}</td>
+
+                            {% elif rows == 1 %}
+                                <td>{{ database[cols][rows] }}
+                                    <form id="one_product" action="{{ url_for('product.product') }}" method="post">
+                                        <input type="hidden" id="one_product" name="one_product" value={{ cols }}>
+                                        <input type="submit" id="new" value="Podívat se">
+                                    </form>
+                                </td>
+                            {% elif rows == 3 and database[cols][rows]=="" %}
+                                <td>Kategorie odebrána</td>
+                            {% else %}
+                                <td>{{ database[cols][rows] }}</td>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                        <td><a href="/price">odkaz</a></td>
+                        <td>
+                            <form id="delete_product" action="{{ url_for('product.product') }}" method="post">
+                                <input type="hidden" id="delete" name="delete" value={{ i.value }}>
+                                <input type="Submit" value="Delete">
+                            </form>
+                        </td>
+                        {% set i.value = i.value + 1 %}
+
+                    </tr>
+                    {% set i = namespace(value=0) %}
+
+                {% endfor %}
+            </tbody>
+        </table>
+
+{#Jinak neuvidí delete#}
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID produku</th>
+                    <th>Název</th>
+                    <th>Výrobce</th>
+                    <th>Kategorie</th>
+                    <th>Cena</th>
+                    <th>Vývoj cen</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cols in range(database | length ) %}
+                    <tr>
+                        {% for rows in range(5) %}
+                            {% if database[cols][rows] == None %}
+                                <td>{{"zatím neznámá"}}</td>
+
+                            {% elif rows == 1 %}
+                                <td>{{ database[cols][rows] }}
+                                    <form id="one_product" action="{{ url_for('product.product') }}" method="post">
+                                        <input type="hidden" id="one_product" name="one_product" value={{ cols }}>
+                                        <input type="submit" id="new" value="Podívat se">
+                                    </form>
+                                </td>
+
+                            {% else %}
+                                <td>{{ database[cols][rows] }}</td>
+
+                            {% endif %}
+
+                        {% endfor %}
+                        <td><a href="/price">odkaz</a></td>
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    {% endif %}
+
+</body>
+
+{% endblock %}
